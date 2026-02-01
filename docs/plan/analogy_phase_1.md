@@ -196,3 +196,5 @@ Train the model (find the patterns)
 Then your model becomes like a psychic detective who can look at a new customer file and say:
 "This customer has been here 2 months, pays $95/month, has month-to-month contract, no tech support... 85% chance they'll leave in 3 months!"
 And the company can intervene before they go.
+
+------------------------------------------------------------------------------------------

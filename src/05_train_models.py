@@ -1,6 +1,25 @@
 """
 Phase 2: Train multiple models and compare performance
+
+ANALOGY: The Detective Competition
+
+You're hiring a detective to predict which customers will leave.
+
+Detective 1 (Logistic Regression):
+- Uses a simple scoring system
+- "Add points for risk factors, subtract for loyalty factors"
+- If total score > threshold → "Will churn"
+- Fast, transparent, works for straightforward cases
+
+Detective 2 (Random Forest):
+- Actually 100 detectives working together
+- Each asks a series of yes/no questions
+- They vote on the final prediction
+- Slower, more complex, but catches subtle patterns
+
+We'll test both on past customers and see who's more accurate!
 """
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -13,8 +32,8 @@ warnings.filterwarnings('ignore')  # Suppress warnings for cleaner output
 # Load encoded data
 print("Loading encoded data...")
 # pd.read_csv() loads the CSV into a DataFrame
-X = pd.read_csv('../data/X_features.csv')
-y = pd.read_csv('../data/y_target.csv').values.ravel()  # .ravel() flattens to 1D array
+X = pd.read_csv('../data/processed/X_features.csv')
+y = pd.read_csv('../data/processed/y_target.csv').values.ravel()  # .ravel() flattens to 1D array
 
 print(f"Features: {X.shape}")  # (rows, columns)
 print(f"Target: {y.shape}")    # (rows,)

@@ -1,0 +1,17 @@
+BEST MODEL: Logistic Regression (Balanced)
+==================================================
+
+Performance on Test Set:
+  Accuracy:  80.7%
+  Precision: 50.8%
+  Recall:    80.7%
+  F1-Score:  62.3%
+
+Business Impact:
+  Catches 302 of 374 churners (80.7%)
+  Misses only 72 churners
+  293 false alarms (acceptable)
+
+Cost Analysis:
+  Monthly cost: $7,970
+  vs Baseline: $13,540 (saves $5,570/month)

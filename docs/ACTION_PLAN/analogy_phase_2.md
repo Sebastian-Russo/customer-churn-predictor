@@ -109,3 +109,101 @@ Your problem might be fairly linear (straightforward relationships)
 Random Forest might be overfitting (too complex for this data)
 We haven't tuned Random Forest yet (could improve it)
 
+
+### F1 Score
+
+Simple Analogy
+Precision = "When I say someone will churn, am I usually right?"
+Recall = "Of all the people who churn, how many do I catch?"
+F1-Score = "Overall, how good am I at this task?"
+Think of it like a net fishing:
+
+High precision, low recall: Small net, catches only big fish (accurate but misses most)
+Low precision, high recall: Huge net, catches everything (but lots of junk)
+High F1: Right-sized net that catches most fish without too much junk
+
+
+# Class Weights
+How It Works During Training
+Without Class Weights:
+Model makes a mistake:
+pythonPredicted: Customer will STAY
+Actually:  Customer CHURNED
+Error penalty: 1.0
+pythonPredicted: Customer will CHURN
+Actually:  Customer STAYED
+Error penalty: 1.0
+Both mistakes hurt equally. Model learns: "Both errors are bad."
+
+WITH Class Weights:
+pythonPredicted: Customer will STAY
+Actually:  Customer CHURNED  ← Minority class!
+Error penalty: 1.88  ← OUCH! Big penalty!
+pythonPredicted: Customer will CHURN
+Actually:  Customer STAYED
+Error penalty: 0.68  ← Not as bad
+```
+
+Model learns: **"Missing a churner is WORSE than a false alarm - be more aggressive!"**
+
+---
+
+## **Visual Analogy**
+
+**Without balancing:**
+```
+Detective scorecard:
+Wrong about churner:     -1 point
+Wrong about non-churner: -1 point
+
+Detective thinks: "I'll play it safe, predict mostly 'stay'"
+```
+
+**With balancing:**
+```
+Detective scorecard:
+Wrong about churner:     -1.88 points ← PAINFUL!
+Wrong about non-churner: -0.68 points ← Less painful
+
+Detective thinks: "I better catch those churners or I'm in big trouble!"
+
+Where It Happens in the Code
+In 06_train_with_class_weights.py:
+python# Line where magic happens
+lr_balanced = LogisticRegression(
+    max_iter=1000,
+    class_weight='balanced',  ← THIS RIGHT HERE!
+    random_state=42
+)
+
+lr_balanced.fit(X_train, y_train)
+When you call .fit(), sklearn:
+
+Calculates the class weights (0.68 and 1.88)
+During training, multiplies errors by these weights
+Model learns to prioritize catching churners
+
+
+Manual Class Weights (Alternative)
+You can also set weights manually:
+python# Make churners 5x more important than non-churners
+model = LogisticRegression(class_weight={0: 1, 1: 5})
+Or based on business costs:
+python# False negative costs $70/month, false positive costs $10/month
+# Ratio = 70/10 = 7
+model = LogisticRegression(class_weight={0: 1, 1: 7})
+
+Why This Improves Recall
+Before (no weights):
+
+Model: "I get 73% accuracy by predicting 'stay' a lot"
+Catches only 52% of churners
+
+After (with weights):
+
+Model: "Missing churners hurts 2.76x more - I need to be aggressive"
+Predicts 'churn' more often
+Catches 60-70% of churners (higher recall!)
+But more false positives (lower precision)
+
+Trade-off: Catches more churners, but also sounds more false alarms.

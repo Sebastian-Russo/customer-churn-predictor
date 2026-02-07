@@ -18,6 +18,10 @@ Detective 2 (Random Forest):
 - Slower, more complex, but catches subtle patterns
 
 We'll test both on past customers and see who's more accurate!
+
+Scikit-learn (science toolkit learn): The ML Toolbox
+What it is: A Python library with ready-made machine learning algorithms.
+Think of it as: A toolbox where each tool is a different ML algorithm.
 """
 
 import pandas as pd
